@@ -82,6 +82,7 @@ void newBook(
   int row = userInput(1);
   print('Enter seat Column: ');
   int column = userInput(1);
+  if(seats[row][column] == false){
   print('Enter name: ');
   String name = userInput(2);
   print('Enter phone: ');
@@ -90,6 +91,11 @@ void newBook(
   print('Booking successful');
   seats[row][column] = true;
   displaySeats(seats);
+  }
+  else{
+  print("Seat is already booked");
+    return;
+  }
 }
 
 void displayBookings(Map<List<int>, Map<String, String>> bookings) {
