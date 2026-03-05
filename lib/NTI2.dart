@@ -12,7 +12,7 @@ void main() {
   bool flag = true;
   while (flag) {
     displayOptions();
-    late int choice = userInput(1);
+    int? choice = userInput(1);
     switch (choice) {
       case 1:
         displaySeats(seats);
@@ -36,19 +36,20 @@ void displayOptions() {
   print("Enter your choice: ");
 }
 
-dynamic userInput(int type) {
-  dynamic input;
+dynamic userInput(int? type) {
+  String? input=stdin.readLineSync()??'';
   if(type.toString().isNotEmpty){
    while (type == 1) {
-    input = int.parse(stdin.readLineSync()!);
-    if (input < 0 || input > 5 || input.toString().isEmpty) {
+    int? input1 = int.tryParse(input);
+    if (input1 != null && input1 >= 0 && input1 <= 5) {
+      return input1;
+    }
+    else {
       print("Invalid input");
       return userInput(type);
     }
-    else return input;
   }
   while (type == 2) {
-    input = stdin.readLineSync()!;
     if (input.toString().isEmpty) {
       print("Invalid input");
       return userInput(type);
@@ -56,8 +57,7 @@ dynamic userInput(int type) {
     else return input;
   }
   while (type == 3) {
-    input = bool.parse(stdin.readLineSync()!);
-    if (input != true || input != false || input.toString().isEmpty) {
+    if (input.toString().isEmpty) {
       print("Invalid input");
       return userInput(type);
     }else return input;
@@ -79,17 +79,17 @@ void newBook(
   List<List<bool>> seats,
 ) {
   print('Enter seat Row: ');
-  int row = userInput(1);
+  int? row = userInput(1);
   print('Enter seat Column: ');
-  int column = userInput(1);
-  if(seats[row][column] == false){
+  int? column = userInput(1);
+  if(seats[row??0][column??0] == false){
   print('Enter name: ');
-  String name = userInput(2);
+  String? name = userInput(2);
   print('Enter phone: ');
-  String phone = userInput(2);
-  bookings[[row, column]] = {'name': name, 'phone': phone};
+  String? phone = userInput(2);
+  bookings[[row??0, column??0]] = {'name': name??' ', 'phone': phone??' '};
   print('Booking successful');
-  seats[row][column] = true;
+  seats[row??0][column??0] = true;
   displaySeats(seats);
   }
   else{
